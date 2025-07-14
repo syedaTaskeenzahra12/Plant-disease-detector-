@@ -1,5 +1,5 @@
-streamlit
-tensorflow
-numpy
-Pillow
-kaggle
+streamlit==1.33.0
+tensorflow==2.15.0
+numpy==1.26.4
+Pillow==10.2.0
+kaggle==1.6.12
