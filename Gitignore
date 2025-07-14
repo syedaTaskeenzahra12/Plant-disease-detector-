@@ -1,0 +1,10 @@
+# large or generated files 
+data/
+model/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# environment files
+.env
