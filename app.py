@@ -8,8 +8,9 @@ MODEL_PATH = "model/plant_disease_model.h5"
 
 st.title("🌿 Plant Disease Detector")
 
+# error message if model missing
 if not os.path.exists(MODEL_PATH):
-    st.error("Model file not found. Train the model or place weights at model/plant_disease_model.h5")
+    st.error("⚠️  Model file not found. Train the model or place weights at model/plant_disease_model.h5")
     st.stop()
 
 @st.cache_resource
@@ -17,6 +18,7 @@ def load_model():
     return tf.keras.models.load_model(MODEL_PATH)
 
 model = load_model()
+
 class_names = [
     "Tomato_Healthy",
     "Tomato_Early_blight",
@@ -27,15 +29,16 @@ class_names = [
     "Tomato_Bacterial_spot"
 ]
 
-uploaded = st.file_uploader("Upload a leaf image", type=["jpg", "png", "jpeg"])
+uploaded = st.file_uploader("Upload a tomato-leaf image", type=["jpg", "png", "jpeg"])
+
 if uploaded:
     img = Image.open(uploaded).convert("RGB")
-    st.image(img, use_column_width=True)
+    st.image(img, caption="Uploaded Image", use_column_width=True)
 
-    img = img.resize((128, 128))
-    arr = np.expand_dims(np.array(img) / 255.0, 0)
+    img_resized = img.resize((128, 128))
+    arr = np.expand_dims(np.array(img_resized) / 255.0, axis=0)
     preds = model.predict(arr)[0]
     pred_class = class_names[int(np.argmax(preds))]
-    confidence = np.max(preds) * 100
+    conf      = np.max(preds) * 100
 
-    st.success(f"**{pred_class}**  ({confidence:.2f} %)")
+    st.success(f"**Prediction:** {pred_class}  —  **Confidence:** {conf:.2f}%")
