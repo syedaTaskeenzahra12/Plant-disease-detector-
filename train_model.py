@@ -1,5 +1,6 @@
+
 """
-Train a simple CNN on the PlantVillage tomato subset.
+Train a CNN on PlantVillage tomato-leaf images.
 
 Usage:
 python train_model.py --epochs 15
@@ -59,8 +60,8 @@ model.compile(optimizer="adam",
               metrics=["accuracy"])
 
 os.makedirs("model", exist_ok=True)
-ckpt = ModelCheckpoint("model/plant_disease_model.h5",
-                       save_best_only=True, monitor="val_accuracy", mode="max")
+ckpt  = ModelCheckpoint("model/plant_disease_model.h5",
+                        save_best_only=True, monitor="val_accuracy", mode="max")
 early = EarlyStopping(patience=3, restore_best_weights=True)
 
 model.fit(train_gen,
